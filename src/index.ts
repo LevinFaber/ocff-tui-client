@@ -1,11 +1,19 @@
+import inquirer from "inquirer";
 import { createOrder, Order } from './model/order'
 import { getApiInstance } from './lib/platform-connector'
 import { createConsumer } from './model/consumer';
-
+import { promptForConsumer } from "./lib/tui";
 async function main () {
-  const api = await getApiInstance()
+  // const api = await getApiInstance();
 
-  const created = await api.dispatchOrder(createSampleOrder());
+  const address = await promptForConsumer();
+
+
+
+
+
+
+ /*  const created = await api.dispatchOrder(createSampleOrder());
 
   const pickjob = await api.awaitPickjob(created.data.id);
 
@@ -13,7 +21,7 @@ async function main () {
     throw new Error("Was not able to find pickjob.");
   }
 
-  const pp = await api.dispatchPerfectPick(pickjob);
+  const pp = await api.dispatchPerfectPick(pickjob); */
 }
 
 function createSampleOrder(): Order {
