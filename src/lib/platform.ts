@@ -1,25 +1,11 @@
-import { Fetcher } from 'openapi-typescript-fetch'
-import { components, paths } from '../generated/fulfillmenttools'
+import { components } from '../generated/fulfillmenttools'
 import { Order } from '../model/order'
 import { createPerfectPickPayload } from '../model/pickjob'
-import { getAuthToken } from './authentication'
-import { environment } from './environment'
+import { ApiInstance, getApiInstance } from './api-connection'
 import { waitThen } from './utils'
 
-type ApiInstance = ReturnType<typeof Fetcher.for<paths>>;
-
-export async function getApiInstance () {
-  const api = Fetcher.for<paths>();
-
-  api.configure({
-    baseUrl: environment.API_URL,
-    init: {
-      headers: {
-        authorization: `Bearer ${await getAuthToken()}`
-      }
-    }
-  })
-
+export async function getBackendPlatform () {
+  const api = await getApiInstance();
   return {
     status: status(api),
     dispatchOrder: dispatchOrder(api),
