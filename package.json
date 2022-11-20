@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx swc ./src  -d dist",
+    "build": "npx swc ./src -d dist",
     "start": "npm run build && node ./dist/index.js",
     "lint": "npx eslint  \"./src/**/*.ts\" --fix",
     "generate": "npx openapi-typescript https://raw.githubusercontent.com/fulfillmenttools/fulfillmenttools-api-reference/master/api.swagger.yaml --output ./generated/fulfillmenttools.d.ts"
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "inquirer": "^9.1.4",
+    "inquirer": "^8.2.5",
     "nanoid": "^3.0.0",
     "node-fetch": "^3.3.0",
     "openapi-typescript-fetch": "^1.1.3",
