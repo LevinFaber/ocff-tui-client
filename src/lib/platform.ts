@@ -18,7 +18,7 @@ export async function getBackendPlatform () {
 
 async function status (api: ApiInstance) {
   const fetchStatus = api.path('/api/status').method('get').create()({})
-  return await fetchStatus
+  return async () => await fetchStatus
 }
 
 function dispatchOrder (api: ApiInstance) {
@@ -53,12 +53,10 @@ function performPerfectPick (api: ApiInstance) {
 
 function waitForPickJob (api: ApiInstance) {
   /*
-    A subscription functionality is available, but not usefull for this client application.
-   */
-
+  A subscription functionality is available, but not useful for this client application.
+  */
+  const findPickJob = api.path('/api/pickjobs').method('get').create()
   return async (orderId: string, maxTries = 20) => {
-    const findPickJob = api.path('/api/pickjobs').method('get').create()
-
     let pickJob: undefined | components['schemas']['StrippedPickJob']
     let tries = 0
 
@@ -84,8 +82,6 @@ function dispatchPerfectPick (api: ApiInstance) {
     .method('patch')
     .create()
   return async (pickJob: components['schemas']['StrippedPickJob']) => {
-    // Set In Progress:
-
     const inProgress = await postPickJob({
       pickJobId: pickJob.id,
       version: pickJob.version,
