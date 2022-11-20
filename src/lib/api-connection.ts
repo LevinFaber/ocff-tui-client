@@ -3,12 +3,12 @@ import { paths } from '../generated/fulfillmenttools'
 import { getAuthToken } from './authentication'
 import { environment } from './environment'
 
-export type ApiInstance = ReturnType<typeof Fetcher.for<paths>>;
+export type ApiInstance = ReturnType<typeof Fetcher.for<paths>>
 
-let apiInstance: undefined | ApiInstance = undefined;
-export async function getApiInstance() {
-  if (apiInstance == undefined) {
-    apiInstance = Fetcher.for<paths>();
+let apiInstance: undefined | ApiInstance
+export async function getApiInstance () {
+  if (apiInstance === undefined) {
+    apiInstance = Fetcher.for<paths>()
     apiInstance.configure({
       baseUrl: environment.API_URL,
       init: {
@@ -18,6 +18,6 @@ export async function getApiInstance() {
       }
     })
   }
-  
-  return apiInstance;
+
+  return apiInstance
 }

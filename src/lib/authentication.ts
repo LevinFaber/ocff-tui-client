@@ -22,13 +22,15 @@ export async function getAuthToken () {
     password: environment.PASSWORD,
     returnSecureToken: true
   }
-  const response: AuthResponse = await (await fetch(url, {
-    headers: {
-      'content-type': 'application/json'
-    },
-    method: 'POST',
-    body: JSON.stringify(body)
-  })).json() // TODO Promise Rejections;
+  const response: AuthResponse = await (
+    await fetch(url, {
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(body)
+    })
+  ).json() // TODO Promise Rejections;
 
-  return response.idToken;
+  return response.idToken
 }

@@ -11,11 +11,11 @@ export const consumerDataDemo = {
 }
 
 export const articleCatalogDemo = [
-  "Apples",
-  "Oranges",
-  "Milk",
-  "Butter",
-  "Pizza",
-  "Water",
-  "Soap"
+  'Apples',
+  'Oranges',
+  'Milk',
+  'Butter',
+  'Pizza',
+  'Water',
+  'Soap'
 ]

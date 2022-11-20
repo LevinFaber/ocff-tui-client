@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx swc ./src -d dist",
     "start": "npm run build && node ./dist/index.js",
-    "lint": "npx eslint  \"./src/**/*.ts\" --fix",
+    "lint": "npx eslint --fix \"./src/**/*.ts\"",
     "generate": "npx openapi-typescript https://raw.githubusercontent.com/fulfillmenttools/fulfillmenttools-api-reference/master/api.swagger.yaml --output ./generated/fulfillmenttools.d.ts"
   },
   "author": "",

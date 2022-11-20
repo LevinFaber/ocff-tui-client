@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid'
 import { components } from '../generated/fulfillmenttools'
-import { z } from 'zod'
 
 type OrderLineItem = components['schemas']['OrderLineItemForCreation']
 
@@ -35,7 +34,7 @@ export function createOrder ({
   consumer: Order['consumer']
   tags?: Order['tags']
 }): Order {
-  const now = (new Date()).toISOString()
+  const now = new Date().toISOString()
   const tennantOrderId = nanoid()
 
   return {
