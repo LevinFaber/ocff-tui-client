@@ -1,58 +1,28 @@
 import inquirer from "inquirer";
 import { createOrder, Order } from './model/order'
 import { getApiInstance } from './lib/platform-connector'
-import { createConsumer } from './model/consumer';
-import { promptForConsumer } from "./lib/tui";
+import { promptForConsumerData } from "./lib/tui/consumer";
+import { promptForOrderLines } from "./lib/tui/article";
+import { promptForPickJob } from "./lib/tui/pickjob";
 async function main () {
-  // const api = await getApiInstance();
+  const api = await getApiInstance();
 
-  const address = await promptForConsumer();
+  const consumerData = await promptForConsumerData();
+  const orderLines = await promptForOrderLines();
 
-
-
-
-
-
- /*  const created = await api.dispatchOrder(createSampleOrder());
-
-  const pickjob = await api.awaitPickjob(created.data.id);
-
-  if (!pickjob) {
-    throw new Error("Was not able to find pickjob.");
-  }
-
-  const pp = await api.dispatchPerfectPick(pickjob); */
-}
-
-function createSampleOrder(): Order {
-  const consumer = createConsumer({
-    email: "levinfaberwork@gmail.com",
-    address: {
-      city: 'Cologne',
-      country: 'DE',
-      houseNumber: '7',
-      postalCode: '50667',
-      street: 'xxx',
-      companyName: "ACME Corp"
-    }
+  const orderData = createOrder({
+    consumer: consumerData,
+    orderLineItems: orderLines
   });
-  
-  const orderLineItems: Order['orderLineItems'] = [
-    {
-      article: {
-        tenantArticleId: '4711',
-        title: 'Kölsche Wasser'
-      },
-      quantity: 10
-    }
-  ]
 
-  const order = createOrder({
-    consumer,
-    orderLineItems
-  })
+  const created = await api.dispatchOrder(orderData);
 
-  return order
+  const performPick = await promptForPickJob();
+
+  if (performPick) {
+    await api.performPerfectPick(created.data.id);
+  } 
 }
+
 
 main()

@@ -24,7 +24,8 @@ export async function getApiInstance () {
     status: status(api),
     dispatchOrder: dispatchOrder(api),
     getOrder: getOrder(api),
-    awaitPickjob: awaitPickJob(api),
+    performPerfectPick: performPerfectPick(api),
+    waitForPickJob: waitForPickJob(api),
     dispatchPerfectPick: dispatchPerfectPick(api),
   }
 }
@@ -40,6 +41,7 @@ function dispatchOrder(api: ApiInstance) {
     return postOrder(order);
   }
 }
+
 function getOrder(api: ApiInstance) {
   const fetchOrder = api.path("/api/orders/{orderId}").method("get").create();
   return (orderId: string) => {
@@ -48,7 +50,22 @@ function getOrder(api: ApiInstance) {
     });
   }
 }
-function awaitPickJob(api: ApiInstance) {
+
+function performPerfectPick(api: ApiInstance) {
+  return async (orderRef: string) => {
+    const pickJob = await waitForPickJob(api)(orderRef);
+
+    if (!pickJob) {
+      throw new Error("Unable to find pick job");
+    }
+
+    const pickPerformed = await dispatchPerfectPick(api)(pickJob);
+
+    return pickPerformed;
+  }
+}
+
+function waitForPickJob(api: ApiInstance) {
   /* 
     A subscription functionality is available, but not usefull for this client application. 
    */
@@ -100,3 +117,4 @@ function dispatchPerfectPick(api: ApiInstance) {
     return closed.data.status === "CLOSED";
   }
 }
+
