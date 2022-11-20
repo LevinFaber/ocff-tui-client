@@ -22,7 +22,6 @@ export async function getAuthToken () {
     password: environment.PASSWORD,
     returnSecureToken: true
   }
-  console.log({ test: environment.USERNAME })
   const response: AuthResponse = await (await fetch(url, {
     headers: {
       'content-type': 'application/json'
@@ -31,7 +30,5 @@ export async function getAuthToken () {
     body: JSON.stringify(body)
   })).json() // TODO Promise Rejections;
 
-  console.log(response)
-
-  return response.idToken
+  return response.idToken;
 }

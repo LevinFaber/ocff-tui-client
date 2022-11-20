@@ -4,26 +4,16 @@ import { createConsumer } from './model/consumer';
 
 async function main () {
   const api = await getApiInstance()
-  const response = await api.path('/api/status').method('get').create()({})
 
-  console.log(response);
+  const created = await api.dispatchOrder(createSampleOrder());
 
-  const createOrder = api.path("/api/orders").method("post").create();
+  const pickjob = await api.awaitPickjob(created.data.id);
 
-  const created = await createOrder(createSampleOrder());
+  if (!pickjob) {
+    throw new Error("Was not able to find pickjob.");
+  }
 
-  console.log("Created")
-  console.log({created});
-
-
-  const readOrder = api.path("/api/orders/{orderId}").method("get").create();
-
-  const read = await readOrder({
-    orderId: created.data.id
-  });
-
-  console.log({read: read.data.orderLineItems[0].article});
-
+  const pp = await api.dispatchPerfectPick(pickjob);
 }
 
 function createSampleOrder(): Order {
