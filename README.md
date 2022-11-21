@@ -9,10 +9,10 @@ Functionality
 
 
 ## Development
+Need Node.js with fetch support to run, i.e. LTS 18.12.1
 
 ```
 npm run generate
-
 ```
 Use this script to generate the api client from the swagger documentation
 
