@@ -17,8 +17,8 @@ export async function getBackendPlatform () {
 }
 
 async function status (api: ApiInstance) {
-  const fetchStatus = api.path('/api/status').method('get').create()({})
-  return async () => await fetchStatus
+  const fetchStatus = api.path('/api/status').method('get').create()
+  return async () => await fetchStatus({})
 }
 
 function dispatchOrder (api: ApiInstance) {
@@ -86,7 +86,7 @@ function dispatchPerfectPick (api: ApiInstance) {
       pickJobId: pickJob.id,
       version: pickJob.version,
       actions: [
-        // Code Generation of openapi-typescript-fetch seems to fail here, proposes type never[]. Have to do some coercion.
+        // Code Generation of openapi-typescript-fetch seems to fail here, proposes type never[]. This may be a limit in the ts language server. Have to do some coercion.
         {
           action: 'ModifyPickJob',
           status: 'IN_PROGRESS' as components['schemas']['PickJobStatus']
